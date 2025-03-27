@@ -2,14 +2,19 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
+import { PaginationDto } from "src/common/dto/pagination.dto";
 
 @Injectable()
 export class BrandService {
 
     constructor(private readonly prismaService:PrismaService){}
 
-    async findAll(){
-        return await this.prismaService.brands.findMany({});
+    async findAll(paginationDto:PaginationDto){
+        const {skip = 0, take = 10} = paginationDto;
+        return await this.prismaService.brands.findMany({
+            skip,
+            take
+        });
     }
 
     async findById(id:number){

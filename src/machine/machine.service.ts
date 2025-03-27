@@ -2,13 +2,17 @@ import { ConflictException, Injectable, NotFoundException } from "@nestjs/common
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateMachineDto } from "./dto/create-machine.dto";
 import { UpdateMachineDto } from "./dto/update-machine.dto";
+import { PaginationDto } from "src/common/dto/pagination.dto";
 
 @Injectable()
 export class MachineService {
     constructor(private readonly prismaService:PrismaService){}
 
-    async findAll(){
+    async findAll(paginationDto:PaginationDto){
+        const {skip = 0, take = 10} = paginationDto;
         return await this.prismaService.machines.findMany({
+            skip,
+            take
         });
     }
 

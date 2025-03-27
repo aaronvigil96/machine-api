@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
 import { MachineService } from "./machine.service";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { CreateMachineDto } from "./dto/create-machine.dto";
 import { UpdateMachineDto } from "./dto/update-machine.dto";
+import { PaginationDto } from "src/common/dto/pagination.dto";
 
 @ApiTags('machines')
 @Controller('machines')
@@ -11,8 +12,8 @@ export class MachineController {
 
     @Get()
     @ApiResponse({status: 200, description: 'Returning all machines.'})
-    getAll(){
-        return this.machineService.findAll();
+    getAll(@Query() paginationDto:PaginationDto){
+        return this.machineService.findAll(paginationDto);
     }
 
     @Get(':id')

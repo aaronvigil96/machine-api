@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 import { BrandService } from "./brand.service";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { UpdateBrandDto } from "./dto/update-brand.dto";
+import { PaginationDto } from "src/common/dto/pagination.dto";
 
 @ApiTags('brands')
 @Controller('brands')
@@ -12,8 +13,8 @@ export class BrandController {
 
     @Get()
     @ApiResponse({status: 200, description: 'Returning all brands.'})
-    getAll(){
-        return this.brandService.findAll();
+    getAll(@Query() paginationDto:PaginationDto){
+        return this.brandService.findAll(paginationDto);
     }
 
     @Get(':id')

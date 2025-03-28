@@ -36,7 +36,6 @@ export class SpareService {
             if(err.code === 'P2002') throw new ConflictException('The spare part with that code is already created');
             if(err.code === 'P2003') {
                 if(err.meta.field_name === 'Spares_brandId_fkey (index)') throw new NotFoundException('That brandId does not exist');
-                if(err.meta.field_name === 'Spares_machineId_fkey (index)') throw new NotFoundException('That machineId does not exist');
             }
         }
     }
@@ -54,7 +53,6 @@ export class SpareService {
         }catch(err){
             if(err.code === 'P2003') {
                 if(err.meta.field_name === 'Spares_brandId_fkey (index)') throw new NotFoundException('That brandId does not exist');
-                if(err.meta.field_name === 'Spares_machineId_fkey (index)') throw new NotFoundException('That machineId does not exist');
             }
             if(err.code === 'P2002') throw new ConflictException('That spare already exist');
             if(err.code === 'P2025') throw new NotFoundException('That spare does not exist');

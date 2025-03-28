@@ -14,9 +14,5 @@ export class UpdateSpareDto {
 
     @IsNumber()
     @IsPositive()
-    machineId: number;
-
-    @IsNumber()
-    @IsPositive()
     brandId: number;
 }

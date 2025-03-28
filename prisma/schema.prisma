@@ -28,15 +28,22 @@ model Machines {
   brandId Int
   brand Brands @relation(fields: [brandId], references: [id])
   type Types @relation(fields: [typeId],references: [id])
-  spares Spares[]
+  spares SparesOnMachines[]
 }
 
 model Spares {
   id Int @id @default(autoincrement())
   name String
   code String @unique
-  machineId Int
-  machine Machines @relation(fields: [machineId], references: [id])
   brandId Int
   brand Brands @relation(fields: [brandId], references: [id])
+  machines SparesOnMachines[]
+}
+
+model SparesOnMachines {
+  spareId Int
+  machineId Int
+  spare Spares @relation(fields: [spareId], references: [id])
+  machine Machines @relation(fields: [machineId], references: [id])
+  @@id([spareId, machineId])
 }

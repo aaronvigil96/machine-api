@@ -18,7 +18,7 @@ export class MachineController {
 
     @Get(':id')
     @ApiResponse({status: 404, description: 'That machine does not exist.'})
-    @ApiResponse({status: 200, description: 'Returning machine.'})
+    @ApiResponse({status: 200, description: 'Returning machine with spares.'})
     getById(@Param('id', ParseIntPipe)id:number){
         return this.machineService.findById(id);
     }

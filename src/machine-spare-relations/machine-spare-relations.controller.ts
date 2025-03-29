@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { MachineSpareRelationsService } from "./machine-spare-relations.service";
 import { AddSpareToMachineDto } from "./dto/add-spare-to-machine.dto";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";

@@ -20,6 +20,15 @@ export class MachineService {
         const machine = await this.prismaService.machines.findUnique({
             where: {
                 id
+            },
+            select: {
+                id: true,
+                name: true,
+                spares: {
+                    select: {
+                        spare: true
+                    }
+                }
             }
         })
         if(machine === null) throw new NotFoundException('That machine does not exist');

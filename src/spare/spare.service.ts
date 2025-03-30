@@ -8,7 +8,7 @@ import { UpdateSpareDto } from "./dto/update-spare.dto";
 export class SpareService {
     constructor(private readonly prismaService:PrismaService){}
 
-    async findAll({skip = 0, take = 10}:PaginationDto){
+    async findAll({skip = 0, take = 5}:PaginationDto){
         return await this.prismaService.spares.findMany({
             skip,
             take
@@ -19,10 +19,21 @@ export class SpareService {
         const spare = await this.prismaService.spares.findUnique({
             where: {
                 id
+            },
+            include: {
+                machines: {
+                    select: {
+                        machine: true
+                    }
+                }
             }
         })
         if(spare === null) throw new NotFoundException('That spare does not exist');
-        return spare;
+
+        return {
+            ...spare,
+            machines: spare.machines.map(m => m.machine)
+        };
     }
 
     async create(createSpareDto:CreateSpareDto){

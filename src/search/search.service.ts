@@ -28,18 +28,49 @@ export class SearchService {
             include: {
                 machines: {
                     select: {
-                        machine: {
-                            select: {
-                                name: true,
-                                id: true
-                            }
-                        }
+                        machine: true
+                    }
+                },
+                brand: {
+                    select: {
+                        id: true,
+                        name: true
                     }
                 }
             },
             skip,
             take
         })
-        return spares
+        return spares.map(spare => ({
+            ...spare,
+            machines: spare.machines.map(m => m.machine)
+        }))
+    }
+
+    async findMachine({query, skip=0, take=5}:PaginationQueryDto){
+        const machines = await this.prismaService.machines.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: query,
+                            mode: 'insensitive'
+                        }
+                    }
+                ]
+            },
+            select: {
+                id: true,
+                name: true,
+                brand: {
+                    select: {
+                        name: true
+                    }
+                }
+            },
+            skip,
+            take
+        })
+        return machines;
     }
 }

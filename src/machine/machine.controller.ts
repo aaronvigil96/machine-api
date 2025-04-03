@@ -16,6 +16,12 @@ export class MachineController {
         return this.machineService.findAll(paginationDto);
     }
 
+    @Get('total')
+    @ApiResponse({status: 200, description: 'Returning total count of machines'})
+    getTotalCount(){
+        return this.machineService.findTotalCount();
+    }
+
     @Get(':id')
     @ApiResponse({status: 404, description: 'That machine does not exist.'})
     @ApiResponse({status: 200, description: 'Returning machine with spares.'})

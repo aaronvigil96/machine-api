@@ -12,8 +12,16 @@ export class MachineService {
         const {skip = 0, take = 10} = paginationDto;
         return await this.prismaService.machines.findMany({
             skip,
-            take
+            take,
         });
+    }
+
+    async findTotalCount(){
+        const total = await this.prismaService.machines.findMany({
+        })
+        return {
+            total: total.length
+        }
     }
 
     async findById(id:number){
@@ -24,6 +32,8 @@ export class MachineService {
             select: {
                 id: true,
                 name: true,
+                type: true,
+                brand:true,
                 spares: {
                     select: {
                         spare: true
@@ -32,7 +42,10 @@ export class MachineService {
             }
         })
         if(machine === null) throw new NotFoundException('That machine does not exist');
-        return machine;
+        return {
+            ...machine,
+            spares: machine.spares.map(s => s.spare)
+        };
     }
 
     async create(createMachineDto:CreateMachineDto){

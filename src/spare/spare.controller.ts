@@ -16,6 +16,12 @@ export class SpareController {
         return this.spareService.findAll(paginationDto);
     }
 
+    @Get('total')
+    @ApiResponse({status: 200, description: 'Returning total count of spares'})
+    getTotalCount(){
+        return this.spareService.findTotalCount();
+    }
+
     @Get(':id')
     @ApiResponse({status: 404, description: 'That spare does not exist.'})
     @ApiResponse({status: 200, description: 'Returning spare.'})

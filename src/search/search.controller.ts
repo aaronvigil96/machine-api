@@ -12,4 +12,9 @@ export class SearchController {
     findSpare(@Query()paginationQueryDto:PaginationQueryDto){
         return this.searchService.findSpare(paginationQueryDto);
     }
+
+    @Get('machines')
+    findMachine(@Query()paginationQueryDto:PaginationQueryDto){
+        return this.searchService.findMachine(paginationQueryDto);
+    }
 }

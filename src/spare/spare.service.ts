@@ -11,8 +11,21 @@ export class SpareService {
     async findAll({skip = 0, take = 5}:PaginationDto){
         return await this.prismaService.spares.findMany({
             skip,
-            take
+            take,
+            include: {
+                brand: true
+            },
+            orderBy: {
+                id:"desc"
+            }
         })
+    }
+
+    async findTotalCount(){
+        const total = await this.prismaService.spares.findMany({})
+        return {
+            total: total.length
+        }
     }
 
     async findById(id:number){
@@ -24,6 +37,12 @@ export class SpareService {
                 machines: {
                     select: {
                         machine: true
+                    }
+                },
+                brand: {
+                    select: {
+                        id: true,
+                        name: true
                     }
                 }
             }

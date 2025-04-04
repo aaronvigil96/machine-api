@@ -73,4 +73,23 @@ export class SearchService {
         })
         return machines;
     }
+
+    async findBrand({query, skip=0, take=10}){
+        const brands = await this.prismaService.brands.findMany({
+            where: {
+                name: {
+                    contains: query,
+                    mode: 'insensitive'
+                }
+            },
+            include: {
+                machines: {
+                    include: {
+                        type: true
+                    }
+                }
+            }
+        });
+        return brands;
+    }
 }

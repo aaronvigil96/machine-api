@@ -38,6 +38,8 @@ model Spares {
   brandId Int
   brand Brands @relation(fields: [brandId], references: [id])
   machines SparesOnMachines[]
+  alternatives AlternativeSpares[] @relation("SpareAlternatives")
+  usedAsAlternative AlternativeSpares[] @relation("AlternativeOfSpare")
 }
 
 model SparesOnMachines {
@@ -46,4 +48,12 @@ model SparesOnMachines {
   spare Spares @relation(fields: [spareId], references: [id])
   machine Machines @relation(fields: [machineId], references: [id])
   @@id([spareId, machineId])
+}
+
+model AlternativeSpares {
+  mainSpareId Int
+  alternativeSpareId Int
+  mainSpare   Spares  @relation("SpareAlternatives", fields: [mainSpareId], references: [id])
+  alternative Spares  @relation("AlternativeOfSpare", fields: [alternativeSpareId], references: [id])
+  @@unique([mainSpareId, alternativeSpareId])
 }

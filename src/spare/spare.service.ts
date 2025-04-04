@@ -44,6 +44,15 @@ export class SpareService {
                         id: true,
                         name: true
                     }
+                },
+                alternatives: {
+                    select: {
+                        alternative: {
+                            include: {
+                                brand: true
+                            }
+                        }
+                    }
                 }
             }
         })
@@ -51,7 +60,8 @@ export class SpareService {
 
         return {
             ...spare,
-            machines: spare.machines.map(m => m.machine)
+            machines: spare.machines.map(m => m.machine),
+            alternatives: spare.alternatives.map(a => a.alternative)
         };
     }
 
